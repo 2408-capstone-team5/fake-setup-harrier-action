@@ -1,0 +1,11 @@
+name: "My First GitHub Action"
+description: "A basic action that logs a message."
+author: "Your Name"
+inputs:
+  example_input:
+    description: "An example input parameter"
+    required: false
+    default: "Hello World"
+runs:
+  using: "node12"
+  main: "index.js"
