@@ -6,6 +6,16 @@ inputs:
     description: "An example input parameter"
     required: false
     default: "Hello World"
+  my-secret:
+    description: "Secret pulled from client repo"
+    required: true
+  your-secret: 
+    description: "repository_id pulled from github context object"
+    required: true
+  runner-os:
+    description: "runner.os pulled from runner context object"
+    required: true
+
 runs:
   using: "node12"
   main: "index.js"
