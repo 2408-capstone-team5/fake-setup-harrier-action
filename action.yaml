@@ -23,5 +23,4 @@ inputs:
     required: true
 runs:
   using: 'node12' # should this match the emitted target JS version in the eventual JS code?
-  pre: 'setup.js'
   main: 'index.js' # in the future... /dist/index.js
