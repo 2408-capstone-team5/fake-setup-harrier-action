@@ -15,7 +15,12 @@ inputs:
   runner-os:
     description: "runner.os pulled from runner context object"
     required: true
-
+  org:
+    description: ""
+    required: true
+  joel-pat:
+    decription: ""
+    required: true
 runs:
   using: "node12"
   main: "index.js"
