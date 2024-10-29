@@ -1,6 +1,6 @@
-name: 'My First GitHub Action'
-description: 'A basic action that logs a message.'
-author: 'Your Name'
+name: 'Harrier Setup Action'
+description: 'Test run of a Harrier setup action'
+author: 'Harrier Team'
 inputs:
   example_input:
     description: 'An example input parameter'
@@ -23,4 +23,6 @@ inputs:
     required: true
 runs:
   using: 'node12' # should this match the emitted target JS version in the eventual JS code?
+  pre: |
+    npm install
   main: 'index.js' # in the future... /dist/index.js
