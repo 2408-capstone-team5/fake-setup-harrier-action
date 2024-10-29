@@ -1,26 +1,28 @@
-name: "My First GitHub Action"
-description: "A basic action that logs a message."
-author: "Your Name"
+name: 'Harrier Setup Action'
+description: 'Test run of a Harrier setup action'
+author: 'Harrier Team'
 inputs:
   example_input:
-    description: "An example input parameter"
+    description: 'An example input parameter'
     required: false
-    default: "Hello World"
+    default: 'Hello World'
   my-secret:
-    description: "Secret pulled from client repo"
+    description: 'Secret pulled from client repo'
     required: true
-  your-secret: 
-    description: "repository_id pulled from github context object"
+  your-secret:
+    description: 'repository_id pulled from github context object'
     required: true
   runner-os:
-    description: "runner.os pulled from runner context object"
+    description: 'runner.os pulled from runner context object'
     required: true
   org:
-    description: ""
+    description: 'organization pulled from github context object'
     required: true
   joel-pat:
-    decription: ""
+    description: "user secret pulled from organization's secrets"
     required: true
 runs:
-  using: "node12"
-  main: "index.js"
+  using: 'node12' # should this match the emitted target JS version in the eventual JS code?
+  pre: |
+    npm install
+  main: 'index.js' # in the future... /dist/index.js
