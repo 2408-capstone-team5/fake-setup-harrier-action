@@ -2,23 +2,13 @@ name: 'Harrier Setup Action'
 description: 'Test run of a Harrier setup action'
 author: 'Harrier Team'
 inputs:
-  example_input:
-    description: 'An example input parameter'
-    required: false
-    default: 'Hello World'
-  my-secret:
-    description: 'Secret pulled from client repo'
-    required: true
-  your-secret:
-    description: 'repository_id pulled from github context object'
-    required: true
-  runner-os:
-    description: 'runner.os pulled from runner context object'
-    required: true
   org:
     description: 'organization pulled from github context object'
     required: true
-  joel-pat:
+  repo:
+    description: 'the repository name that the action is running in'
+    required: true
+  personal-access-token:
     description: "user secret pulled from organization's secrets"
     required: true
 runs:
