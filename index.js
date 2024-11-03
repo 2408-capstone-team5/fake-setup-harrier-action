@@ -20,7 +20,7 @@ async function getRegistrationToken() {
     },
   };
 
-  console.table({ options });
+  console.log({ options });
   try {
     const response = await octokit.request(
       'POST /orgs/{org}/actions/runners/registration-token',
@@ -49,7 +49,7 @@ async function createWebhook() {
     },
   };
 
-  console.table({ options });
+  console.log({ options });
 
   try {
     const response = await octokit.request(
@@ -62,9 +62,9 @@ async function createWebhook() {
   }
 }
 
-getRegistrationToken();
-createWebhook();
-
-console.log(EC2Client);
-
-setTimeout(() => console.log('index.js file finished running...'), 5000);
+(async () => {
+  await getRegistrationToken();
+  await createWebhook();
+  console.log(EC2Client);
+  setTimeout(() => console.log('index.js file finished running...'), 5000);
+})();
