@@ -1,29 +1,30 @@
 const core = require('@actions/core');
 const { EC2Client } = require('@aws-sdk/client-ec2');
 const { Octokit } = require('@octokit/rest');
+
 console.log('Hello from the Harrier GitHub Action!');
 
-const MY_SECRET = core.getInput('my-secret');
-const YOUR_SECRET = core.getInput('your-secret');
-const RUNNER_OS = core.getInput('runner-os');
-const JOEL_PAT = core.getInput('joel-pat');
-const ORG = core.getInput('org');
+const auth = core.getInput('personal-access-token');
+const org = core.getInput('org');
+const repo = core.getInput('repo');
 
-// Initialize Octokit with your PAT
-const octokit = new Octokit({
-  auth: JOEL_PAT,
-});
+console.log({ auth, org, repo });
+
+const octokit = new Octokit({ auth });
 
 async function getRegistrationToken() {
+  const options = {
+    org,
+    headers: {
+      'X-GitHub-Api-Version': '2022-11-28',
+    },
+  };
+
+  console.log({ options });
   try {
     const response = await octokit.request(
       'POST /orgs/{org}/actions/runners/registration-token',
-      {
-        org: ORG,
-        headers: {
-          'X-GitHub-Api-Version': '2022-11-28',
-        },
-      }
+      options
     );
     console.log('Runner registration token:', response.data.token);
   } catch (error) {
@@ -31,9 +32,39 @@ async function getRegistrationToken() {
   }
 }
 
-getRegistrationToken();
+async function createWebhook() {
+  const options = {
+    org,
+    repo,
+    name: 'web',
+    active: true,
+    events: ['workflow_job'],
+    config: {
+      url: 'https://enmur9s9m9c5m.x.pipedream.net/test-webhook', // request bin url for testing purposes
+      content_type: 'json',
+      insecure_ssl: '0',
+    },
+    headers: {
+      'X-GitHub-Api-Version': '2022-11-28',
+    },
+  };
 
-console.log(EC2Client);
+  console.log({ options });
 
-console.log({ MY_SECRET, YOUR_SECRET, RUNNER_OS });
-setTimeout(() => console.log('index.js file finished running...'), 5000);
+  try {
+    const response = await octokit.request(
+      'POST /repos/{org}/{repo}/hooks',
+      options
+    );
+    console.log('Webhook created:', response.data);
+  } catch (error) {
+    console.error('Error creating webhook:', error);
+  }
+}
+
+(async () => {
+  await getRegistrationToken();
+  await createWebhook();
+  console.log(EC2Client);
+  setTimeout(() => console.log('index.js file finished running...'), 5000);
+})();
