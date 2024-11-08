@@ -1,0 +1,19 @@
+name: joel-simple-test
+on:
+  workflow_dispatch
+
+jobs:
+  push_to_registry:
+    name: Docker build imagined-harrier-user-project
+    runs-on: ubuntu-latest
+    steps:
+      - name: Extract Repository Name
+        id: extract_repo_name
+        run: echo "REPO_NAME=$(echo ${{ github.repository }} | cut -d'/' -f2)" >> $GITHUB_ENV
+
+      - name: "Run Harrier Setup Action"
+        uses: 2408-capstone-team5/fake-setup-harrier-action@v4.6
+        with:
+          org: ${{ github.repository_owner }}
+          repo: ${{ env.REPO_NAME }}
+          personal-access-token: ${{ secrets.personal_access_token }}
